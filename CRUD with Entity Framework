@@ -1,0 +1,30 @@
+Select Template asp.net core wepapp mvc
+create Model-some Enteries   public int Id { get; set; }
+
+Create DbContext--Enteries     public class STDDBContext:DbContext
+    {
+        public STDDBContext(DbContextOptions<STDDBContext> options):base(options)    //Constructor
+        {
+
+        }
+        public DbSet<StudentModel> StudentModel { get; set; }                    //here <StudentModel> is Model Name,,  StudentModel  is name of table in db
+    }
+    
+    Program.cs Enteries ---   builder.Services.AddDbContext<STDDBContext>(options =>
+                              options.UseSqlServer(builder.Configuration.GetConnectionString("DC")));
+                              
+                              
+appsetting.json  --
+  "ConnectionStrings": {
+
+    "DC": "Server=DESKTOP-38JI9EK\\SQLEXPRESS; Database=CrudCore; Trusted_Connection=True;Integrated Security=True; MultipleActiveResultSets=True;TrustServerCertificate=true"
+  },
+  
+ Open package manager console    --add-migration "add"
+                                 --update-database                              //note: Just create db before this command
+
+Create Controller with all enteries..
+
+
+Full running app --   StudentCRUD in Running Projects
+ 
