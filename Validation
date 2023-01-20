@@ -1,0 +1,17 @@
+Validation in c# to avoid duplicate enteries of Email frontened backend merger
+
+In Model.cs
+
+ [Remote(action: "IsEmailExists", controller:"StudentModels", ErrorMessage = "Email already exists in database.")]
+        public string Email { get; set; }
+      
+      
+      
+      
+In Controller
+        
+        
+ public async Task<IActionResult> Index()
+        {
+            return View(await _context.StudentModel.ToListAsync());
+        }
