@@ -1,0 +1,43 @@
+select * from updates
+  create proc spProcudeure
+  as begin 
+  select * from  Updates
+  end
+  go
+  create proc spInsert
+  (
+  
+  @Name Varchar(100),
+  @Description Varchar(100),
+  @City Varchar(100)
+  )
+  as begin
+  Insert into Updates(Name,Description,City) values(@Name,@Description,@City)
+  end
+  go
+
+  create proc spUpdate
+  (
+  @Id int,
+  @Name Varchar(100),
+  @Description Varchar(100),
+  @City Varchar(100)
+  )
+  as begin
+  Update Updates set Name=@Name,Description=@Description,City=@City where Id=@Id
+  end
+  go
+
+
+  create proc spdelete
+  (@id int
+  )
+  as 
+  begin
+  delete from Updates where Id=@id
+  end
+  go
+
+
+  Insert into updates(Name,Description,City)
+  values('Ashu','Hello World','Lucknow')
