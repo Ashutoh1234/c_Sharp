@@ -245,5 +245,8 @@ If(@ProcID = 'Select')
 Begin
 Select * From RDs
 End
-
+If(@ProcID = 'INSERT')
+Begin
+Insert Into RDs1(Name,Email,City,DateofBirth) Values(@Name, @Email, @City,@DateofBirth)
+End
 END
