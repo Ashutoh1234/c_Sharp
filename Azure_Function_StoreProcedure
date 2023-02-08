@@ -1,3 +1,7 @@
+                                                                RDMODEL
+                                                                
+                                                                
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,3 +20,175 @@ namespace RAndD.Model
 
     }
 }
+
+
+                                                                    Repository
+                                                                    
+                                                                    
+                                                                    
+                                                                    
+                                                                    
+using RAndD.Model;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection.Metadata.Ecma335;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace RAndD.Repository
+{
+    internal class RDRepository
+    {
+        private SqlConnection con;
+        public List<RDModel>GetAllRD(List<RDModel> RDlist, string connectionstring, string ProcID)
+        {
+            try
+            {
+                con = new SqlConnection(connectionstring);
+                SqlCommand cmd = new SqlCommand("proc_RD", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@ProcID", ProcID);
+                SqlDataAdapter sd = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable();
+                con.Open();
+                sd.Fill(dt);
+                con.Close();
+                foreach (DataRow dr in dt.Rows)
+                {
+                    RDlist.Add(new RDModel
+                    {
+                        ID = Convert.ToInt32(dr["ID"]),
+                        Name = Convert.ToString(dr["Name"]),
+                        Email = Convert.ToString(dr["Email"]),
+                        City = Convert.ToString(dr["City"]),
+
+                    }); return RDlist;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                con.Dispose();
+            }
+            return RDlist;
+        }
+         
+    }
+}
+
+
+                                                                        Function
+                                                                        
+                                                                        
+                                                                        
+                                                                        
+                                                                        
+using System;
+using System.IO;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Azure.WebJobs;
+using Microsoft.Azure.WebJobs.Extensions.Http;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
+using RAndD.Repository;
+using System.Collections.Generic;
+using RAndD.Model;
+
+namespace RAndD
+{
+    public static class Function1
+    {
+        static string connstring = Environment.GetEnvironmentVariable("DBConn");
+        static RDRepository AppRepo = new RDRepository();
+
+        [FunctionName("Function1")]
+        public static async Task<IActionResult> Run(
+            [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequest req,
+            ILogger log)
+        {
+            log.LogInformation("C# HTTP trigger function processed a request.");
+            List<RDModel> RDs = new List<RDModel>();
+            try
+            {
+                AppRepo.GetAllRD(RDs, connstring, "SELECT");
+                return new OkObjectResult(RDs);
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+    }
+}
+
+
+
+
+
+
+                                                                        Local.Setting.Json
+                                                                        
+                                                                        
+                                                                        
+                                                                        
+                                                                        
+                                                                        
+                                                                        
+ {
+    "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+    "DBconn": "Data Source=DESKTOP-38JI9EK\\SQLEXPRESS;Database=RD;Trusted_Connection=True;MultipleActiveResultSets=True;",
+    "FUNCTIONS_WORKER_RUNTIME": "dotnet"
+  }
+}
+
+
+
+
+
+                                                                            DAtaBase
+                                                                            
+                                                                            
+                                                                                  
+                                                                            
+                                                                            
+                                                                            
+create table RDs(
+ID int Identity(1,1) NOT NULL,
+Name varchar(100) NUll,
+Email varchar(100) NULL,
+City varchar(100)NULL
+)                                
+                                                                            
+                                                                            
+                                                                            
+                                                                            
+Create Procedure proc_RD
+@ProcID Varchar(100),
+@ID Int = 0,
+@Name Varchar(100) = Null,
+@Email Varchar(100) = Null,
+@City Varchar(100) = Null
+As
+Begin
+
+
+
+If(@ProcID = 'Select')
+Begin
+Select * From RDs
+End
+
+END
