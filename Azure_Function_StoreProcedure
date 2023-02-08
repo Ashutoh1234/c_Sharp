@@ -16,7 +16,7 @@ namespace RAndD.Model
         public string Name { get; set; }
         public string Email { get; set; }
         public string City { get; set; }
-        //public DateTime DateofBirth { get; set; }
+   
 
     }
 }
@@ -65,7 +65,7 @@ namespace RAndD.Repository
                         Name = Convert.ToString(dr["Name"]),
                         Email = Convert.ToString(dr["Email"]),
                         City = Convert.ToString(dr["City"]),
-
+                        
                     }); return RDlist;
                 }
 
@@ -92,7 +92,7 @@ namespace RAndD.Repository
                 cmd.Parameters.AddWithValue("@Name", employee.Name.ToString().ToUpper());
                 cmd.Parameters.AddWithValue("@Email", employee.Email.ToString().ToUpper());
                 cmd.Parameters.AddWithValue("@City", employee.City.ToString().ToUpper());
-                cmd.Parameters.AddWithValue("@DateofBirth", employee.DateofBirth);
+               
 
                 con.Open();
                 int i = cmd.ExecuteNonQuery();
