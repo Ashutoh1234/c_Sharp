@@ -1,0 +1,47 @@
+on click call partial view
+
+
+
+  <div>
+                        <button type="button" data-toggle="modal" data-target="#modal-Add-User" class="btn btn-primary pull-right">
+                            Create User
+                        </button>
+                    </div>
+
+
+<div id="modal-Add-User" class="modal fade" role="dialog" data-controller="Establishment" data-parsley-validate data-action="CreateUser">
+    @Html.Partial("PartialViews/_AddUser", Model)
+</div>
+
+
+
+
+
+
+                                               ajax call of function
+
+
+
+<script type="text/javascript">
+    $(function () {
+        $("#btnGet").click(function () {
+            alert('Hello');
+            $.ajax({
+                type: "POST",
+                url: "/Establishment/UpdateUser",
+                data: '{status_cd: "' + $("#I").val() + '" }',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    alert('Wrong');
+                },
+                failure: function (response) {
+                    alert(response.responseText);
+                },
+                error: function (response) {
+                    alert(response.responseText);
+                }
+            });
+        });
+    });
+</script>
