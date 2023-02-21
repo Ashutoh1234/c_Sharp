@@ -45,3 +45,34 @@ on click call partial view
         });
     });
 </script>
+
+
+
+
+
+
+function UpdateStatusAct(userID) {
+    debugger;
+    var $container = $('#modal-Up-User');
+    var data = {
+        status_cd: "A",
+        user_id: userID
+
+    };
+    debugger;
+    var controller = "Establishment";
+    var action = "UpdateUser";
+    var URL = "../" + controller + "/" + action;
+
+    ajaxPOST(URL, data, function (data) {
+        if (!isJson(data)) {
+            swal("Failure", "Create User Failed...", "warning");
+        }
+        else {
+            $('#modal-Up-User').modal('toggle');
+            ResetFields('#modal-Up-User');
+            swal("Success", "Changes made successfully.", "success");
+        }
+    });
+}
+
