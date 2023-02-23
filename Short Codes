@@ -1,6 +1,6 @@
 on click call partial view
 
-
+ <button class="btn btn-default" href="#" type="button" onclick="location.href='@Url.Action("Registration", "Registration")'">Submit</button>
 
   <div>
                         <button type="button" data-toggle="modal" data-target="#modal-Add-User" class="btn btn-primary pull-right">
