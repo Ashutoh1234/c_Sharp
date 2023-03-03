@@ -150,3 +150,41 @@ function UpdateStatusAct(userID) {
         }
 
     </script>
+
+
+
+
+
+
+
+
+
+
+
+                                                   Consume Post API
+                                                   
+                                                   
+       public async Task<IActionResult> Index(Users user)
+           {
+
+            int ID;
+            DataTable responseObj = new DataTable();
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri("http://localhost:7121/");
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                HttpResponseMessage response = new HttpResponseMessage();
+                response = await client.PostAsJsonAsync("api/CreateUser", user).ConfigureAwait(false);
+
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string result = response.Content.ReadAsStringAsync().Result;
+                    Users usr = new Users();
+                    usr = JsonConvert.DeserializeObject<Users>(result);
+                    ID = usr.ID;
+                    TempData["ID"] = ID;
+                }
+            }
+            return RedirectToAction("Registration");
+        }
